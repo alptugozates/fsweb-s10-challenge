@@ -3,12 +3,23 @@ import { formatDistanceToNow } from "date-fns";
 import { tr } from "date-fns/locale";
 import { useDispatch } from "react-redux";
 import { notSil } from "../actions";
+import { toast } from "react-toastify";
 
 export default function Post({ item }) {
   const dispatch = useDispatch();
 
   function handleSil() {
     dispatch(notSil(item.id))
+    toast.info('Not silindi.', {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
   }
 
   return (
