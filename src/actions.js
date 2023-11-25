@@ -2,9 +2,15 @@ import axios from "axios";
 
 export const NOT_EKLE = "NOT_EKLE"
 export const NOT_SIL = "NOT_SIL"
+export const NOTLARI_SIFIRLA = "NOTLARI_SIFIRLA"
 
 export function notEkle(not) {
   return ({ type: NOT_EKLE, payload: not });
+}
+
+export const notlariSifirla = () => {
+  return ({ type: NOTLARI_SIFIRLA });
+
 }
 
 export function notSil(notId) {
