@@ -1,15 +1,10 @@
-import { NOT_EKLE, NOT_SIL } from "./actions";
+import { get } from "react-hook-form";
+import { NOTLARI_SIFIRLA, NOT_EKLE, NOT_SIL } from "./actions";
 
 const s10chLocalStorageKey = "s10ch";
-
+const storedState = localStorageStateOku(s10chLocalStorageKey);
 const baslangicDegerleri = {
-  notlar: [
-    {
-      id: "75g1IyB8JLehAr0Lr5v3p",
-      date: "Fri Feb 03 2023 09:40:27 GMT+0300 (GMT+03:00)",
-      body: "Bugün hava çok güzel!|En iyi arkadaşımın en iyi arkadaşı olduğumu öğrendim :)|Kedim iyileşti!",
-    },
-  ],
+  notlar: storedState || [],
 };
 
 function localStorageStateYaz(key, data) {
@@ -31,19 +26,34 @@ function baslangicNotlariniGetir(key) {
 }
 
 const reducer = (state = baslangicDegerleri, action) => {
+  let yeniState;
   switch (action.type) {
     case NOT_EKLE:
-      return {
+      yeniState = {
         ...state,
-        notlar: [...state.notlar, action.payload],
-      }
+        notlar: [...state.notlar, action.payload]
+      };
+      localStorageStateYaz(s10chLocalStorageKey, yeniState);
+      return yeniState;
+
     case NOT_SIL:
-      return {
+      yeniState = {
         ...state,
-        notlar: state.notlar.filter(item => item.id !== action.payload)
-      }
+        notlar: state.notlar.filter((item) => item.id !== action.payload)
+      };
+      localStorageStateYaz(s10chLocalStorageKey, yeniState);
+      return yeniState;
+
+    case NOTLARI_SIFIRLA:
+      yeniState = {
+        ...state,
+        notlar: []
+      };
+      localStorageStateYaz(s10chLocalStorageKey, yeniState);
+      return yeniState;
+
     default:
-      break;
+      return state;
   }
-}
+};
 export default reducer;
